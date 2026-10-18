@@ -1,0 +1,59 @@
+# bld-permit-scope-checker — 完整文本
+
+本文件为 llms.txt 标准的「完整版」，供长上下文模型一次性读取本仓库的完整说明。
+
+## 这是什么
+
+SynomosAI 平台的「建筑 · 施工许可与资质承揽范围」域 Profile（domain/1.0）。状态 RESERVED：已按平台协议规范建好行业接入四件套骨架，等待具备本域资质的运营方认领。
+
+把「这个工程能不能干、这家单位能不能接」拆成可核验属性；AI 只做要件提示，不做开工与承揽结论。
+
+## 解决什么问题
+
+1. 施工资质分等级、分专业，承揽范围必须与资质匹配；无资质承揽、越级承揽、挂靠转包是行业顽疾。
+2. 资质等级、施工许可状态、承揽范围匹配、安全生产许可证、竣工验收备案需要机器可读地声明。
+3. 需要一个核验器只回答「这条声明是否可核验、缺什么要件」，而不替代主管部门的开工与承揽认定。
+
+## 四件套
+
+- domain.manifest.json：域声明（5 个属性 / 签发方要求 / 3 条红线 / 有效期）
+- gate-map.json：动作摩擦五级表，每条红线必须有对应 block / require-owner 规则
+- privacy.json：隐私声明（默认关闭、最小必要、可撤回、可删除）——缺失即校验失败
+- checker.io.json：MCP 核验器契约，输出仅 shown / missing / expired / unverifiable 四态
+
+## 属性（5 个）
+
+- bld.qualification_grade：special / grade_1 / grade_2 / grade_3 / none / unknown（以住建部门公示为准）
+- bld.permit_status：issued / pending / expired / not_required
+- bld.scope_match：match / mismatch / unclear
+- bld.safety_license：valid / expired / none / not_required
+- bld.completion_acceptance：accepted / pending / not_started / unknown
+
+## 红线（3 条）
+
+1. 不得输出「可开工」「可承揽」放行结论，以主管部门许可为唯一依据
+2. 无资质或越级承揽不得给出任何可操作建议
+3. 不得建议以挂靠、转包、资质出借、拆分合同等方式满足形式要求
+
+## 快速开始
+
+本仓为声明式骨架，无运行时依赖：
+
+```bash
+git clone https://github.com/SynomosAI/bld-permit-scope-checker.git
+cd bld-permit-scope-checker
+cat domain.manifest.json
+```
+
+## 触发词
+
+施工许可 / 建筑工程 / 资质 / 总承包 / 专业承包 / 安全生产许可证 / 竣工验收 / 承揽范围 / 挂靠 / 转包 / construction permit / contractor qualification / scope match / safety license / 核验器 / 域 Profile。
+
+## 许可与权利
+
+代码与配置 MIT（© 2026 SynomosAI）；文档知识版权 All Rights Reserved（学术/新闻/评估引用请注明出处）。完整条款见 LICENSE 与 LICENSE-CONTENT。联系：zhaoxinghua09@gmail.com ｜ ORCID 0009-0001-0512-1237。
+
+## 链接
+
+- 仓库: https://github.com/SynomosAI/bld-permit-scope-checker
+- 组织: https://github.com/SynomosAI
